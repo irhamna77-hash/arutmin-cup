@@ -47,7 +47,7 @@
             color: #f3f4f6;
         }
         .glass-panel {
-            background: rgba(26, 11, 54, 0.8);
+            background: rgba(26, 11, 54, 0.85);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -61,8 +61,8 @@
             box-shadow: 0 10px 30px -5px rgba(0, 242, 254, 0.2);
         }
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-track {
             background: #0e051b;
@@ -80,97 +80,91 @@
 
     <!-- HEADER & STATUS BAR -->
     <header class="w-full border-b border-purple-900/50 glass-panel sticky top-0 z-40 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-cyan-400 via-purple-600 to-amber-400 p-0.5 shadow-lg shadow-purple-900/50 flex-shrink-0">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5 sm:space-x-3">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-cyan-400 via-purple-600 to-amber-400 p-0.5 shadow-lg shadow-purple-900/50 flex-shrink-0">
                     <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
-                        <i class="fa-solid fa-trophy text-amber-400 text-lg"></i>
+                        <i class="fa-solid fa-trophy text-amber-400 text-sm sm:text-lg"></i>
                     </div>
                 </div>
                 <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="font-sports font-bold text-xl sm:text-2xl tracking-wider text-white">
+                    <div class="flex items-center gap-1.5 sm:gap-2">
+                        <h1 class="font-sports font-bold text-lg sm:text-2xl tracking-wider text-white">
                             ARUTMIN CUP <span class="text-cyan-400">XVII 2026</span>
                         </h1>
                         <!-- D1 Connection Status Badge -->
-                        <span id="d1ConnectionBadge" class="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-300 border border-purple-700/50">
+                        <span id="d1ConnectionBadge" class="hidden md:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-300 border border-purple-700/50">
                             <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
                             <span id="d1StatusText">Local Engine</span>
                         </span>
                     </div>
-                    <p class="text-xs text-purple-300 flex items-center gap-1">
+                    <p class="text-[11px] sm:text-xs text-purple-300 flex items-center gap-1">
                         <i class="fa-solid fa-location-dot text-rose-400"></i> Desa Tanjung Batu, Kab. Kotabaru
                     </p>
                 </div>
             </div>
 
-            <!-- Header Action Controls -->
-            <div class="flex items-center gap-2 sm:gap-3">
-                <button onclick="openModal('quickInputModal')" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm flex items-center gap-1.5 shadow-md shadow-cyan-500/20 transition duration-200">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    <span>Input Skor</span>
-                </button>
-                <button onclick="openResetConfirmModal()" title="Reset Data ke Default" class="bg-purple-950/80 hover:bg-rose-900/50 text-purple-300 hover:text-rose-300 border border-purple-800/40 p-2 rounded-lg text-xs sm:text-sm transition">
-                    <i class="fa-solid fa-rotate-left"></i>
-                </button>
+            <!-- Header Action Controls (Dynamic Admin vs Public View) -->
+            <div class="flex items-center gap-1.5 sm:gap-3" id="headerAdminControls">
+                <!-- Rendered dynamically by JS -->
             </div>
         </div>
 
         <!-- NAVIGATION TABS -->
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-4 border-t border-purple-900/30 overflow-x-auto">
-            <button onclick="switchTab('scheduleTab')" id="btn-scheduleTab" class="tab-btn px-4 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-cyan-400 text-cyan-400 whitespace-nowrap flex items-center gap-2">
+        <nav class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-4 border-t border-purple-900/30 overflow-x-auto justify-around sm:justify-start">
+            <button onclick="switchTab('scheduleTab')" id="btn-scheduleTab" class="tab-btn px-3 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-cyan-400 text-cyan-400 whitespace-nowrap flex items-center gap-1.5">
                 <i class="fa-solid fa-calendar-days"></i> Jadwal & Hasil
             </button>
-            <button onclick="switchTab('standingsTab')" id="btn-standingsTab" class="tab-btn px-4 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-transparent text-purple-300 hover:text-white whitespace-nowrap flex items-center gap-2">
+            <button onclick="switchTab('standingsTab')" id="btn-standingsTab" class="tab-btn px-3 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-transparent text-purple-300 hover:text-white whitespace-nowrap flex items-center gap-1.5">
                 <i class="fa-solid fa-ranking-star"></i> Klasemen Pool
             </button>
-            <button onclick="switchTab('teamsTab')" id="btn-teamsTab" class="tab-btn px-4 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-transparent text-purple-300 hover:text-white whitespace-nowrap flex items-center gap-2">
+            <button onclick="switchTab('teamsTab')" id="btn-teamsTab" class="tab-btn px-3 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-transparent text-purple-300 hover:text-white whitespace-nowrap flex items-center gap-1.5">
                 <i class="fa-solid fa-shield-halved"></i> Daftar Tim
             </button>
         </nav>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 flex-grow">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6 flex-grow">
 
         <!-- STATS DASHBOARD BAR -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-4 border-cyan-400">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
+            <div class="glass-panel p-3 sm:p-3.5 rounded-xl flex items-center justify-between border-l-4 border-cyan-400">
                 <div>
-                    <p class="text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Total Match</p>
-                    <h3 id="statTotalMatches" class="text-xl sm:text-2xl font-sports font-bold text-white">24</h3>
+                    <p class="text-[10px] sm:text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Total Match</p>
+                    <h3 id="statTotalMatches" class="text-lg sm:text-2xl font-sports font-bold text-white">24</h3>
                 </div>
-                <div class="w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
-                    <i class="fa-solid fa-futbol text-lg"></i>
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                    <i class="fa-solid fa-futbol text-sm sm:text-lg"></i>
                 </div>
             </div>
 
-            <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-4 border-emerald-400">
+            <div class="glass-panel p-3 sm:p-3.5 rounded-xl flex items-center justify-between border-l-4 border-emerald-400">
                 <div>
-                    <p class="text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Selesai</p>
-                    <h3 id="statFinishedMatches" class="text-xl sm:text-2xl font-sports font-bold text-emerald-400">0</h3>
+                    <p class="text-[10px] sm:text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Selesai</p>
+                    <h3 id="statFinishedMatches" class="text-lg sm:text-2xl font-sports font-bold text-emerald-400">0</h3>
                 </div>
-                <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
-                    <i class="fa-solid fa-circle-check text-lg"></i>
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                    <i class="fa-solid fa-circle-check text-sm sm:text-lg"></i>
                 </div>
             </div>
 
-            <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-4 border-amber-400">
+            <div class="glass-panel p-3 sm:p-3.5 rounded-xl flex items-center justify-between border-l-4 border-amber-400">
                 <div>
-                    <p class="text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Total Gol</p>
-                    <h3 id="statTotalGoals" class="text-xl sm:text-2xl font-sports font-bold text-amber-400">0</h3>
+                    <p class="text-[10px] sm:text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Total Gol</p>
+                    <h3 id="statTotalGoals" class="text-lg sm:text-2xl font-sports font-bold text-amber-400">0</h3>
                 </div>
-                <div class="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
-                    <i class="fa-solid fa-fire text-lg"></i>
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
+                    <i class="fa-solid fa-fire text-sm sm:text-lg"></i>
                 </div>
             </div>
 
-            <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-4 border-pink-500">
+            <div class="glass-panel p-3 sm:p-3.5 rounded-xl flex items-center justify-between border-l-4 border-pink-500">
                 <div>
-                    <p class="text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Kategori</p>
-                    <h3 class="text-base sm:text-lg font-sports font-bold text-pink-400">Babak Penyisihan</h3>
+                    <p class="text-[10px] sm:text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Kategori</p>
+                    <h3 class="text-sm sm:text-lg font-sports font-bold text-pink-400">Babak Penyisihan</h3>
                 </div>
-                <div class="w-9 h-9 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400">
-                    <i class="fa-solid fa-sitemap text-lg"></i>
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400">
+                    <i class="fa-solid fa-sitemap text-sm sm:text-lg"></i>
                 </div>
             </div>
         </div>
@@ -178,22 +172,21 @@
         <!-- TAB CONTENT 1: JADWAL & SKOR PERTANDINGAN -->
         <section id="scheduleTab" class="tab-content space-y-4">
             <!-- Filter Bar -->
-            <div class="glass-panel p-4 rounded-xl flex flex-col lg:flex-row gap-4 items-center justify-between">
-                <!-- Group Filter -->
-                <div class="flex flex-wrap items-center gap-1.5 w-full lg:w-auto">
-                    <span class="text-xs font-semibold text-purple-300 uppercase tracking-wider mr-1">Pool:</span>
-                    <button onclick="filterGroup('ALL')" id="filterGrp-ALL" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950">SEMUA</button>
-                    <button onclick="filterGroup('A')" id="filterGrp-A" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800">POOL A</button>
-                    <button onclick="filterGroup('B')" id="filterGrp-B" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800">POOL B</button>
-                    <button onclick="filterGroup('C')" id="filterGrp-C" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800">POOL C</button>
-                    <button onclick="filterGroup('D')" id="filterGrp-D" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800">POOL D</button>
+            <div class="glass-panel p-3 sm:p-4 rounded-xl flex flex-col lg:flex-row gap-3 sm:gap-4 items-center justify-between">
+                <!-- Group Filter Buttons -->
+                <div class="flex flex-wrap items-center gap-1.5 w-full lg:w-auto justify-start">
+                    <span class="text-xs font-semibold text-purple-300 uppercase tracking-wider mr-1 hidden sm:inline">Pool:</span>
+                    <button onclick="filterGroup('ALL')" id="filterGrp-ALL" class="grp-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950 transition">SEMUA</button>
+                    <button onclick="filterGroup('A')" id="filterGrp-A" class="grp-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition">POOL A</button>
+                    <button onclick="filterGroup('B')" id="filterGrp-B" class="grp-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition">POOL B</button>
+                    <button onclick="filterGroup('C')" id="filterGrp-C" class="grp-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition">POOL C</button>
+                    <button onclick="filterGroup('D')" id="filterGrp-D" class="grp-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800 transition">POOL D</button>
                 </div>
 
                 <!-- Status Filter & Search -->
-                <div class="flex flex-wrap sm:flex-nowrap items-center gap-3 w-full lg:w-auto">
-                    <div class="flex items-center gap-1.5 w-full sm:w-auto">
-                        <span class="text-xs font-semibold text-purple-300 uppercase tracking-wider mr-1">Status:</span>
-                        <select id="statusFilter" onchange="renderMatches()" class="bg-slate-950 border border-purple-800/80 rounded-lg px-2.5 py-1.5 text-xs text-purple-200 focus:outline-none focus:border-cyan-400">
+                <div class="flex items-center gap-2 w-full lg:w-auto">
+                    <div class="w-1/2 sm:w-auto flex items-center gap-1">
+                        <select id="statusFilter" onchange="renderMatches()" class="w-full bg-slate-950 border border-purple-800/80 rounded-lg px-2 py-1.5 text-xs text-purple-200 focus:outline-none focus:border-cyan-400">
                             <option value="ALL">Semua Status</option>
                             <option value="live">🔴 LIVE</option>
                             <option value="finished">✅ Selesai</option>
@@ -201,21 +194,21 @@
                         </select>
                     </div>
 
-                    <div class="relative w-full sm:w-56">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-purple-400 text-xs"></i>
-                        <input type="text" id="searchInput" oninput="renderMatches()" placeholder="Cari Tim / Tanggal..." class="w-full bg-slate-950 border border-purple-800/80 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400 placeholder-purple-400/50">
+                    <div class="relative w-1/2 sm:w-56">
+                        <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-purple-400 text-xs"></i>
+                        <input type="text" id="searchInput" oninput="renderMatches()" placeholder="Cari Tim / Tanggal..." class="w-full bg-slate-950 border border-purple-800/80 rounded-lg pl-7 pr-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400 placeholder-purple-400/50">
                     </div>
                 </div>
             </div>
 
             <!-- Matches Grid -->
-            <div id="matchesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div id="matchesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <!-- Matches rendered dynamically -->
             </div>
         </section>
 
         <!-- TAB CONTENT 2: KLASEMEN POOL -->
-        <section id="standingsTab" class="tab-content hidden space-y-6">
+        <section id="standingsTab" class="tab-content hidden space-y-4 sm:space-y-6">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
                     <h2 class="font-sports text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
@@ -223,25 +216,25 @@
                     </h2>
                     <p class="text-xs text-purple-300">Dua tim teratas dari tiap pool berhak lolos ke Babak Perempat Final (8 Besar).</p>
                 </div>
-                <button onclick="shareStandings()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-2 rounded-lg flex items-center gap-1.5 shadow-md transition">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> Bagikan Ke WA
+                <button onclick="shareStandings()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-2 rounded-lg flex items-center justify-center gap-1.5 shadow-md transition">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Bagikan Hasil Ke WA
                 </button>
             </div>
 
             <!-- 4 Group Standings Tables -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="standingsContainer">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6" id="standingsContainer">
                 <!-- Group Tables Rendered via JS -->
             </div>
         </section>
 
         <!-- TAB CONTENT 3: DAFTAR TIM PER POOL -->
-        <section id="teamsTab" class="tab-content hidden space-y-6">
+        <section id="teamsTab" class="tab-content hidden space-y-4 sm:space-y-6">
             <div class="text-center max-w-xl mx-auto py-2">
-                <h2 class="font-sports text-2xl font-bold text-white">TIM PESERTA ARUTMIN CUP XVII</h2>
+                <h2 class="font-sports text-xl sm:text-2xl font-bold text-white">TIM PESERTA ARUTMIN CUP XVII</h2>
                 <p class="text-xs text-purple-300">Total 16 Tim terbaik yang terbagi ke dalam 4 Pool Pertandingan</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="teamsContainer">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5" id="teamsContainer">
                 <!-- Teams rendered by JS -->
             </div>
         </section>
@@ -255,13 +248,47 @@
             <span>ARUTMIN CUP XVII 2026 &bull; Desa Tanjung Batu, Kab. Kotabaru</span>
         </div>
         <div class="flex items-center gap-3">
-            <span id="footerEngineText" class="text-[11px] text-purple-400">Integrasi Cloudflare D1 API Ready</span>
+            <button onclick="toggleAdminLoginModal()" class="text-purple-400 hover:text-cyan-300 underline text-[11px] flex items-center gap-1">
+                <i class="fa-solid fa-user-gear"></i> <span id="footerAdminLinkText">Login Mode Panitia</span>
+            </button>
         </div>
     </footer>
 
+    <!-- MODAL: LOGIN ADMIN -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-2xl p-5 border border-cyan-500/40 shadow-2xl space-y-4 animate-fade-in">
+            <div class="flex items-center justify-between border-b border-purple-800/40 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="font-sports font-bold text-lg text-white">Login Panitia / Admin</h3>
+                </div>
+                <button onclick="closeModal('adminLoginModal')" class="text-purple-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-semibold text-purple-300">Masukkan PIN Admin Panitia</label>
+                    <input type="password" id="loginPinInput" required placeholder="PIN Panitia..." class="w-full bg-slate-950 border border-purple-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-400 placeholder-purple-500">
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="closeModal('adminLoginModal')" class="w-1/3 bg-purple-950 hover:bg-purple-900 text-purple-300 py-2 rounded-lg text-xs font-bold border border-purple-800">
+                        Batal
+                    </button>
+                    <button type="submit" class="w-2/3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold py-2 rounded-lg text-xs shadow-lg shadow-cyan-500/20">
+                        Masuk Admin Mode
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL: UPDATE / INPUT SKOR ADMIN -->
     <div id="scoreModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-md rounded-2xl p-5 border border-purple-600/40 shadow-2xl space-y-4 animate-fade-in">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-5 border border-purple-600/40 shadow-2xl space-y-4 animate-fade-in max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-purple-800/40 pb-3">
                 <div>
                     <span id="modalMatchGroup" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-purple-800 text-cyan-300">GROUP A</span>
@@ -335,24 +362,16 @@
                     </div>
                 </div>
 
-                <!-- Admin PIN Security Input -->
-                <div class="space-y-1">
-                    <div class="flex items-center justify-between">
-                        <label class="text-xs font-semibold text-amber-400 flex items-center gap-1">
-                            <i class="fa-solid fa-key text-[10px]"></i> PIN Admin Panitia
-                        </label>
-                        <span class="text-[10px] text-purple-400">(Default: 2026)</span>
-                    </div>
-                    <input type="password" id="adminPinInput" required placeholder="Masukkan PIN Panitia..." value="2026" class="w-full bg-slate-950 border border-purple-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 placeholder-purple-500">
-                </div>
+                <!-- Hidden Input for PIN auto-filled if logged in -->
+                <input type="hidden" id="adminPinInput" value="2026">
 
                 <!-- Submit Action Buttons -->
                 <div class="flex items-center gap-2 pt-2">
                     <button type="button" onclick="handleClearScore()" class="w-1/3 bg-purple-950 hover:bg-purple-900 text-purple-300 py-2.5 rounded-lg text-xs font-bold border border-purple-800">
-                        Reset Pertandingan
+                        Reset Skor
                     </button>
                     <button type="submit" class="w-2/3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold py-2.5 rounded-lg text-xs shadow-lg shadow-cyan-500/20">
-                        Simpan Skor & D1 Sync
+                        Simpan & D1 Sync
                     </button>
                 </div>
             </form>
@@ -369,7 +388,7 @@
                 </button>
             </div>
             
-            <p class="text-xs text-purple-300">Pilih salah satu pertandingan di bawah untuk membuka modal update skor:</p>
+            <p class="text-xs text-purple-300">Pilih salah satu pertandingan di bawah untuk memperbarui skor:</p>
             
             <div id="quickMatchList" class="overflow-y-auto space-y-2 flex-grow pr-1">
                 <!-- Dynamic Quick List -->
@@ -464,17 +483,86 @@
         let matches = [];
         let currentGroupFilter = 'ALL';
         let isD1Connected = false;
+        let isAdminLoggedIn = false;
 
         // Initialize App & Fetch Data
         async function initApp() {
+            checkAdminSession();
             await fetchMatches();
+            renderHeaderControls();
             renderAll();
+        }
+
+        function checkAdminSession() {
+            const session = sessionStorage.getItem('arutmin_admin_logged');
+            isAdminLoggedIn = (session === 'true');
+        }
+
+        function renderHeaderControls() {
+            const container = document.getElementById('headerAdminControls');
+            const footerText = document.getElementById('footerAdminLinkText');
+
+            if (isAdminLoggedIn) {
+                container.innerHTML = `
+                    <button onclick="openModal('quickInputModal')" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm flex items-center gap-1.5 shadow-md shadow-cyan-500/20 transition duration-200">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span>Input Skor</span>
+                    </button>
+                    <button onclick="openResetConfirmModal()" title="Reset Data ke Default" class="bg-purple-950/80 hover:bg-rose-900/50 text-purple-300 hover:text-rose-300 border border-purple-800/40 p-2 rounded-lg text-xs sm:text-sm transition">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button onclick="handleAdminLogout()" title="Keluar Admin Mode" class="bg-rose-900/40 hover:bg-rose-800/80 text-rose-300 border border-rose-700/50 px-2.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="hidden sm:inline">Keluar</span>
+                    </button>
+                `;
+                if (footerText) footerText.innerText = "Keluar Mode Admin";
+            } else {
+                container.innerHTML = `
+                    <button onclick="toggleAdminLoginModal()" class="bg-purple-900/50 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 font-bold px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-lg text-xs sm:text-sm flex items-center gap-1.5 border border-cyan-500/30 transition duration-200">
+                        <i class="fa-solid fa-lock text-xs"></i>
+                        <span>Login Panitia</span>
+                    </button>
+                `;
+                if (footerText) footerText.innerText = "Login Mode Panitia";
+            }
+        }
+
+        function toggleAdminLoginModal() {
+            if (isAdminLoggedIn) {
+                handleAdminLogout();
+            } else {
+                openModal('adminLoginModal');
+            }
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('loginPinInput').value;
+            if (pin === "2026") {
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('arutmin_admin_logged', 'true');
+                closeModal('adminLoginModal');
+                document.getElementById('loginPinInput').value = '';
+                renderHeaderControls();
+                renderAll();
+                showToast("Berhasil masuk ke Mode Admin Panitia!");
+            } else {
+                showToast("PIN Panitia Salah! (Gunakan 2026)", true);
+            }
+        }
+
+        function handleAdminLogout() {
+            isAdminLoggedIn = false;
+            sessionStorage.removeItem('arutmin_admin_logged');
+            renderHeaderControls();
+            renderAll();
+            showToast("Anda telah keluar dari Mode Admin.");
         }
 
         // FETCH DATA FROM CLOUDFLARE D1 API WITH FALLBACK TO LOCAL STORAGE
         async function fetchMatches() {
             try {
-                // Try fetching from Cloudflare Pages Function endpoint
                 const response = await fetch('/api/matches', { method: 'GET' });
                 if (response.ok) {
                     const d1Data = await response.json();
@@ -485,10 +573,9 @@
                     }
                 }
             } catch (err) {
-                // Network error or endpoint not deployed yet (local web preview mode)
+                // Fallback local preview
             }
 
-            // Fallback: LocalStorage / Initial Data
             setD1Status(false);
             const saved = localStorage.getItem('arutmin_cup_2026_matches');
             if (saved) {
@@ -506,23 +593,22 @@
             isD1Connected = connected;
             const badge = document.getElementById('d1ConnectionBadge');
             const text = document.getElementById('d1StatusText');
-            const footerText = document.getElementById('footerEngineText');
 
-            if (connected) {
-                badge.className = "hidden sm:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-700/50";
-                text.innerText = "Cloudflare D1 Live API";
-                footerText.innerText = "Terhubung dengan Cloudflare D1 Database API";
-            } else {
-                badge.className = "hidden sm:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-900/60 text-cyan-300 border border-purple-700/50";
-                text.innerText = "Editor Local Engine";
-                footerText.innerText = "Mode Editor Web & Local Storage Engine";
+            if (badge && text) {
+                if (connected) {
+                    badge.className = "hidden md:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-700/50";
+                    text.innerText = "Cloudflare D1 Live API";
+                } else {
+                    badge.className = "hidden md:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-900/60 text-cyan-300 border border-purple-700/50";
+                    text.innerText = "Local Engine";
+                }
             }
         }
 
         function mapD1DataToMatches(d1Results) {
             return d1Results.map(r => ({
                 id: r.id,
-                day: r.match_day || getDayFromDate(r.match_date),
+                day: r.match_day || "Match",
                 date: r.match_date,
                 time: r.match_time,
                 group: r.pool || r.group,
@@ -532,10 +618,6 @@
                 awayScore: r.away_score,
                 status: r.status
             }));
-        }
-
-        function getDayFromDate(dateStr) {
-            return "TBD";
         }
 
         function renderAll() {
@@ -619,27 +701,34 @@
                 }
 
                 const scoreDisplay = (m.status === 'finished' || m.status === 'live')
-                    ? `<div class="font-sports font-bold text-2xl text-cyan-400 px-3 py-1 bg-slate-950/90 rounded-lg border border-purple-800/80 shadow-inner">
+                    ? `<div class="font-sports font-bold text-xl sm:text-2xl text-cyan-400 px-3 py-1 bg-slate-950/90 rounded-lg border border-purple-800/80 shadow-inner">
                         ${m.homeScore !== null ? m.homeScore : 0} - ${m.awayScore !== null ? m.awayScore : 0}
                        </div>`
-                    : `<div class="font-sports font-bold text-sm text-purple-400 px-3 py-1 bg-slate-950/60 rounded-lg border border-purple-900/40">
+                    : `<div class="font-sports font-bold text-xs sm:text-sm text-purple-400 px-2.5 py-1 bg-slate-950/60 rounded-lg border border-purple-900/40">
                         VS
                        </div>`;
 
+                // Edit button footer ONLY shown for Admin
+                const cardFooterAction = isAdminLoggedIn ? `
+                    <button onclick="openScoreModal(${m.id})" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 hover:underline">
+                        <i class="fa-solid fa-pen-to-square text-[11px]"></i> Input / Edit Skor
+                    </button>
+                ` : `<span class="text-[10px] text-purple-400">Arutmin Cup 2026</span>`;
+
                 return `
-                    <div class="glass-panel glass-panel-hover p-4 rounded-xl flex flex-col justify-between relative overflow-hidden group">
-                        <div class="flex items-center justify-between border-b border-purple-900/40 pb-2.5 mb-3 text-xs">
-                            <div class="flex items-center gap-2">
+                    <div class="glass-panel glass-panel-hover p-3.5 sm:p-4 rounded-xl flex flex-col justify-between relative overflow-hidden group">
+                        <div class="flex items-center justify-between border-b border-purple-900/40 pb-2 mb-2.5 text-xs">
+                            <div class="flex items-center gap-1.5 sm:gap-2">
                                 <span class="bg-purple-800 text-cyan-300 px-2 py-0.5 rounded text-[10px] font-bold">POOL ${m.group}</span>
-                                <span class="text-purple-300 font-semibold"><i class="fa-regular fa-calendar-check mr-1 text-purple-400"></i>${m.day}, ${m.date}</span>
+                                <span class="text-purple-300 font-semibold text-[11px] sm:text-xs"><i class="fa-regular fa-calendar-check mr-1 text-purple-400"></i>${m.day}, ${m.date}</span>
                             </div>
                             <div>${statusBadge}</div>
                         </div>
 
-                        <div class="grid grid-cols-7 items-center my-2 gap-1">
+                        <div class="grid grid-cols-7 items-center my-1.5 sm:my-2 gap-1">
                             <!-- Home Team -->
-                            <div class="col-span-3 text-center space-y-1.5">
-                                <div class="w-10 h-10 mx-auto rounded-full bg-gradient-to-tr ${homeMeta.color} flex items-center justify-center text-white font-sports font-bold text-sm shadow-md border border-white/20">
+                            <div class="col-span-3 text-center space-y-1 sm:space-y-1.5">
+                                <div class="w-9 h-9 sm:w-10 sm:h-10 mx-auto rounded-full bg-gradient-to-tr ${homeMeta.color} flex items-center justify-center text-white font-sports font-bold text-xs sm:text-sm shadow-md border border-white/20">
                                     ${homeMeta.short}
                                 </div>
                                 <h4 class="font-bold text-xs text-slate-100 truncate max-w-full px-1" title="${m.home}">${m.home}</h4>
@@ -648,23 +737,21 @@
                             <!-- VS / Score -->
                             <div class="col-span-1 flex flex-col items-center justify-center">
                                 ${scoreDisplay}
-                                <span class="text-[10px] text-purple-400 mt-1 font-semibold">${m.time}</span>
+                                <span class="text-[9px] sm:text-[10px] text-purple-400 mt-1 font-semibold">${m.time}</span>
                             </div>
 
                             <!-- Away Team -->
-                            <div class="col-span-3 text-center space-y-1.5">
-                                <div class="w-10 h-10 mx-auto rounded-full bg-gradient-to-tr ${awayMeta.color} flex items-center justify-center text-white font-sports font-bold text-sm shadow-md border border-white/20">
+                            <div class="col-span-3 text-center space-y-1 sm:space-y-1.5">
+                                <div class="w-9 h-9 sm:w-10 sm:h-10 mx-auto rounded-full bg-gradient-to-tr ${awayMeta.color} flex items-center justify-center text-white font-sports font-bold text-xs sm:text-sm shadow-md border border-white/20">
                                     ${awayMeta.short}
                                 </div>
                                 <h4 class="font-bold text-xs text-slate-100 truncate max-w-full px-1" title="${m.away}">${m.away}</h4>
                             </div>
                         </div>
 
-                        <div class="mt-3 pt-2.5 border-t border-purple-900/30 flex items-center justify-between">
+                        <div class="mt-2.5 pt-2 border-t border-purple-900/30 flex items-center justify-between">
                             <span class="text-[10px] text-purple-400"><i class="fa-solid fa-hashtag mr-0.5"></i>Match #${m.id}</span>
-                            <button onclick="openScoreModal(${m.id})" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 hover:underline">
-                                <i class="fa-solid fa-pen-to-square text-[11px]"></i> Input / Edit Skor
-                            </button>
+                            ${cardFooterAction}
                         </div>
                     </div>
                 `;
@@ -747,17 +834,17 @@
                 const teams = standings[group];
 
                 html += `
-                    <div class="glass-panel p-4 rounded-xl border border-purple-800/40 space-y-3 shadow-lg">
+                    <div class="glass-panel p-3.5 sm:p-4 rounded-xl border border-purple-800/40 space-y-3 shadow-lg">
                         <div class="flex items-center justify-between border-b border-purple-900/50 pb-2">
-                            <h3 class="font-sports font-bold text-lg text-cyan-300 flex items-center gap-2">
+                            <h3 class="font-sports font-bold text-base sm:text-lg text-cyan-300 flex items-center gap-2">
                                 <span class="w-3 h-3 rounded-full bg-cyan-400 inline-block shadow-sm shadow-cyan-400"></span>
                                 KLASEMEN POOL ${group}
                             </h3>
-                            <span class="text-[10px] text-purple-300 bg-purple-950/80 px-2 py-0.5 rounded border border-purple-800">Top 2 Lolos 8 Besar</span>
+                            <span class="text-[10px] text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800"><i class="fa-solid fa-award mr-1"></i>Top 2 Lolos 8 Besar</span>
                         </div>
 
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-xs text-left">
+                        <div class="overflow-x-auto -mx-1 px-1">
+                            <table class="w-full text-xs text-left min-w-[320px]">
                                 <thead>
                                     <tr class="text-purple-300 border-b border-purple-900/60 uppercase text-[10px] tracking-wider">
                                         <th class="py-2 px-1 text-center">#</th>
@@ -776,26 +863,26 @@
                                     ${teams.map((t, idx) => {
                                         const isQualify = idx < 2;
                                         const rankClass = isQualify 
-                                            ? 'bg-cyan-500/10 text-cyan-300 font-bold' 
+                                            ? 'bg-cyan-500/10 text-cyan-300 font-semibold' 
                                             : 'text-slate-300';
                                         
                                         const badgeBg = idx === 0 
-                                            ? 'bg-amber-500 text-slate-950' 
-                                            : (idx === 1 ? 'bg-cyan-500 text-slate-950' : 'bg-purple-900/60 text-purple-300');
+                                            ? 'bg-amber-500 text-slate-950 font-bold' 
+                                            : (idx === 1 ? 'bg-cyan-400 text-slate-950 font-bold' : 'bg-purple-900/60 text-purple-300');
 
                                         return `
                                             <tr class="border-b border-purple-900/30 hover:bg-purple-900/20 transition ${rankClass}">
                                                 <td class="py-2.5 px-1 text-center">
-                                                    <span class="w-5 h-5 rounded-full ${badgeBg} inline-flex items-center justify-center text-[10px] font-bold">
+                                                    <span class="w-5 h-5 rounded-full ${badgeBg} inline-flex items-center justify-center text-[10px]">
                                                         ${idx + 1}
                                                     </span>
                                                 </td>
                                                 <td class="py-2.5 px-2 font-semibold">
                                                     <div class="flex items-center gap-2">
-                                                        <div class="w-6 h-6 rounded-full bg-gradient-to-tr ${t.color} flex items-center justify-center text-[9px] font-bold text-white shadow-sm flex-shrink-0">
+                                                        <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-tr ${t.color} flex items-center justify-center text-[8px] sm:text-[9px] font-bold text-white shadow-sm flex-shrink-0">
                                                             ${t.short}
                                                         </div>
-                                                        <span class="truncate max-w-[120px] sm:max-w-none ${isQualify ? 'text-white' : 'text-slate-300'}">${t.name}</span>
+                                                        <span class="truncate max-w-[110px] sm:max-w-none ${isQualify ? 'text-white' : 'text-slate-300'}">${t.name}</span>
                                                     </div>
                                                 </td>
                                                 <td class="py-2.5 px-1 text-center font-sports text-sm">${t.P}</td>
@@ -854,6 +941,11 @@
 
         // Modal score controls
         function openScoreModal(matchId) {
+            if (!isAdminLoggedIn) {
+                showToast("Fitur khusus Panitia! Silakan Login Admin.", true);
+                return;
+            }
+
             const match = matches.find(m => m.id === matchId);
             if (!match) return;
 
@@ -898,11 +990,6 @@
             const id = parseInt(document.getElementById('modalMatchId').value);
             const pin = document.getElementById('adminPinInput').value;
 
-            if (pin !== "2026") {
-                showToast("PIN Admin Salah! (Gunakan 2026)", true);
-                return;
-            }
-
             const homeSc = parseInt(document.getElementById('homeScore').value);
             const awaySc = parseInt(document.getElementById('awayScore').value);
             
@@ -912,7 +999,6 @@
                 if (r.checked) selectedStatus = r.value;
             });
 
-            // Prepare Payload
             const payload = {
                 id: id,
                 home_score: isNaN(homeSc) ? 0 : homeSc,
@@ -921,7 +1007,6 @@
                 pin: pin
             };
 
-            // Attempt D1 POST Call
             let syncedToD1 = false;
             try {
                 const res = await fetch('/api/matches', {
@@ -933,10 +1018,9 @@
                     syncedToD1 = true;
                 }
             } catch (err) {
-                // Fallback to local
+                // local fallback
             }
 
-            // Always update local memory state
             const match = matches.find(m => m.id === id);
             if (match) {
                 match.homeScore = payload.home_score;
@@ -950,20 +1034,13 @@
                 if (syncedToD1) {
                     showToast(`Skor match #${id} tersimpan ke Cloudflare D1!`);
                 } else {
-                    showToast(`Skor match #${id} diperbarui di Editor Local!`);
+                    showToast(`Skor match #${id} diperbarui secara lokal!`);
                 }
             }
         }
 
         function handleClearScore() {
             const id = parseInt(document.getElementById('modalMatchId').value);
-            const pin = document.getElementById('adminPinInput').value;
-
-            if (pin !== "2026") {
-                showToast("PIN Admin Salah!", true);
-                return;
-            }
-
             const match = matches.find(m => m.id === id);
             if (match) {
                 match.homeScore = null;
@@ -1020,7 +1097,7 @@
                 text += `\n`;
             }
 
-            text += `Info lengkap pertandingan: Arutmin Cup XVII 2026`;
+            text += `Update pertandingan: https://arutmin-cup-2026.pages.dev`;
             
             const encoded = encodeURIComponent(text);
             window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
