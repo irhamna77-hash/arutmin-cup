@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARUTMIN CUP XVII 2026 - Desa Tanjung Batu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        sports: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0e051b',
+                            card: '#1a0b36',
+                            purple: '#2e1065',
+                            accent: '#00f2fe',
+                            gold: '#f59e0b',
+                            pink: '#ec4899',
+                            success: '#10b981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0b0316;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(46, 16, 101, 0.75) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(14, 165, 233, 0.25) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(236, 72, 153, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #f3f4f6;
+        }
+        .glass-panel {
+            background: rgba(26, 11, 54, 0.8);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-hover {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-panel-hover:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -5px rgba(0, 242, 254, 0.2);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0e051b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b0764;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f2fe;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans pb-12 selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- HEADER & STATUS BAR -->
+    <header class="w-full border-b border-purple-900/50 glass-panel sticky top-0 z-40 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-cyan-400 via-purple-600 to-amber-400 p-0.5 shadow-lg shadow-purple-900/50 flex-shrink-0">
+                    <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-trophy text-amber-400 text-lg"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-sports font-bold text-xl sm:text-2xl tracking-wider text-white">
+                            ARUTMIN CUP <span class="text-cyan-400">XVII 2026</span>
+                        </h1>
+                        <!-- D1 Connection Status Badge -->
+                        <span id="d1ConnectionBadge" class="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-900/60 text-purple-300 border border-purple-700/50">
+                            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                            <span id="d1StatusText">Local Engine</span>
+                        </span>
+                    </div>
+                    <p class="text-xs text-purple-300 flex items-center gap-1">
+                        <i class="fa-solid fa-location-dot text-rose-400"></i> Desa Tanjung Batu, Kab. Kotabaru
+                    </p>
+                </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="openModal('quickInputModal')" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm flex items-center gap-1.5 shadow-md shadow-cyan-500/20 transition duration-200">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>Input Skor</span>
+                </button>
+                <button onclick="openResetConfirmModal()" title="Reset Data ke Default" class="bg-purple-950/80 hover:bg-rose-900/50 text-purple-300 hover:text-rose-300 border border-purple-800/40 p-2 rounded-lg text-xs sm:text-sm transition">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-4 border-t border-purple-900/30 overflow-x-auto">
+            <button onclick="switchTab('scheduleTab')" id="btn-scheduleTab" class="tab-btn px-4 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-cyan-400 text-cyan-400 whitespace-nowrap flex items-center gap-2">
+                <i class="fa-solid fa-calendar-days"></i> Jadwal & Hasil
+            </button>
+            <button onclick="switchTab('standingsTab')" id="btn-standingsTab" class="tab-btn px-4 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-transparent text-purple-300 hover:text-white whitespace-nowrap flex items-center gap-2">
+                <i class="fa-solid fa-ranking-star"></i> Klasemen Pool
+            </button>
+            <button onclick="switchTab('teamsTab')" id="btn-teamsTab" class="tab-btn px-4 py-2.5 text-xs sm:text-sm font-sports font-bold tracking-wider uppercase border-b-2 border-transparent text-purple-300 hover:text-white whitespace-nowrap flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved"></i> Daftar Tim
+            </button>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 flex-grow">
+
+        <!-- STATS DASHBOARD BAR -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-4 border-cyan-400">
+                <div>
+                    <p class="text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Total Match</p>
+                    <h3 id="statTotalMatches" class="text-xl sm:text-2xl font-sports font-bold text-white">24</h3>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                    <i class="fa-solid fa-futbol text-lg"></i>
+                </div>
+            </div>
+
+            <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-4 border-emerald-400">
+                <div>
+                    <p class="text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Selesai</p>
+                    <h3 id="statFinishedMatches" class="text-xl sm:text-2xl font-sports font-bold text-emerald-400">0</h3>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                    <i class="fa-solid fa-circle-check text-lg"></i>
+                </div>
+            </div>
+
+            <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-4 border-amber-400">
+                <div>
+                    <p class="text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Total Gol</p>
+                    <h3 id="statTotalGoals" class="text-xl sm:text-2xl font-sports font-bold text-amber-400">0</h3>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
+                    <i class="fa-solid fa-fire text-lg"></i>
+                </div>
+            </div>
+
+            <div class="glass-panel p-3.5 rounded-xl flex items-center justify-between border-l-4 border-pink-500">
+                <div>
+                    <p class="text-[11px] text-purple-300 uppercase tracking-wider font-semibold">Kategori</p>
+                    <h3 class="text-base sm:text-lg font-sports font-bold text-pink-400">Babak Penyisihan</h3>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400">
+                    <i class="fa-solid fa-sitemap text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT 1: JADWAL & SKOR PERTANDINGAN -->
+        <section id="scheduleTab" class="tab-content space-y-4">
+            <!-- Filter Bar -->
+            <div class="glass-panel p-4 rounded-xl flex flex-col lg:flex-row gap-4 items-center justify-between">
+                <!-- Group Filter -->
+                <div class="flex flex-wrap items-center gap-1.5 w-full lg:w-auto">
+                    <span class="text-xs font-semibold text-purple-300 uppercase tracking-wider mr-1">Pool:</span>
+                    <button onclick="filterGroup('ALL')" id="filterGrp-ALL" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-cyan-500 text-slate-950">SEMUA</button>
+                    <button onclick="filterGroup('A')" id="filterGrp-A" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800">POOL A</button>
+                    <button onclick="filterGroup('B')" id="filterGrp-B" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800">POOL B</button>
+                    <button onclick="filterGroup('C')" id="filterGrp-C" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800">POOL C</button>
+                    <button onclick="filterGroup('D')" id="filterGrp-D" class="grp-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-purple-900/60 text-purple-200 hover:bg-purple-800">POOL D</button>
+                </div>
+
+                <!-- Status Filter & Search -->
+                <div class="flex flex-wrap sm:flex-nowrap items-center gap-3 w-full lg:w-auto">
+                    <div class="flex items-center gap-1.5 w-full sm:w-auto">
+                        <span class="text-xs font-semibold text-purple-300 uppercase tracking-wider mr-1">Status:</span>
+                        <select id="statusFilter" onchange="renderMatches()" class="bg-slate-950 border border-purple-800/80 rounded-lg px-2.5 py-1.5 text-xs text-purple-200 focus:outline-none focus:border-cyan-400">
+                            <option value="ALL">Semua Status</option>
+                            <option value="live">🔴 LIVE</option>
+                            <option value="finished">✅ Selesai</option>
+                            <option value="upcoming">⏳ Mendatang</option>
+                        </select>
+                    </div>
+
+                    <div class="relative w-full sm:w-56">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-purple-400 text-xs"></i>
+                        <input type="text" id="searchInput" oninput="renderMatches()" placeholder="Cari Tim / Tanggal..." class="w-full bg-slate-950 border border-purple-800/80 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400 placeholder-purple-400/50">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matches Grid -->
+            <div id="matchesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Matches rendered dynamically -->
+            </div>
+        </section>
+
+        <!-- TAB CONTENT 2: KLASEMEN POOL -->
+        <section id="standingsTab" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                    <h2 class="font-sports text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-list-ol text-amber-400"></i> KLASEMEN GROUP ARUTMIN CUP 2026
+                    </h2>
+                    <p class="text-xs text-purple-300">Dua tim teratas dari tiap pool berhak lolos ke Babak Perempat Final (8 Besar).</p>
+                </div>
+                <button onclick="shareStandings()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-2 rounded-lg flex items-center gap-1.5 shadow-md transition">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Bagikan Ke WA
+                </button>
+            </div>
+
+            <!-- 4 Group Standings Tables -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="standingsContainer">
+                <!-- Group Tables Rendered via JS -->
+            </div>
+        </section>
+
+        <!-- TAB CONTENT 3: DAFTAR TIM PER POOL -->
+        <section id="teamsTab" class="tab-content hidden space-y-6">
+            <div class="text-center max-w-xl mx-auto py-2">
+                <h2 class="font-sports text-2xl font-bold text-white">TIM PESERTA ARUTMIN CUP XVII</h2>
+                <p class="text-xs text-purple-300">Total 16 Tim terbaik yang terbagi ke dalam 4 Pool Pertandingan</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="teamsContainer">
+                <!-- Teams rendered by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-purple-900/40 text-center text-xs text-purple-400 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-trophy text-amber-400"></i>
+            <span>ARUTMIN CUP XVII 2026 &bull; Desa Tanjung Batu, Kab. Kotabaru</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <span id="footerEngineText" class="text-[11px] text-purple-400">Integrasi Cloudflare D1 API Ready</span>
+        </div>
+    </footer>
+
+    <!-- MODAL: UPDATE / INPUT SKOR ADMIN -->
+    <div id="scoreModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-5 border border-purple-600/40 shadow-2xl space-y-4 animate-fade-in">
+            <div class="flex items-center justify-between border-b border-purple-800/40 pb-3">
+                <div>
+                    <span id="modalMatchGroup" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-purple-800 text-cyan-300">GROUP A</span>
+                    <h3 class="font-sports font-bold text-lg text-white mt-1">Input Skor Pertandingan</h3>
+                </div>
+                <button onclick="closeModal('scoreModal')" class="text-purple-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="scoreForm" onsubmit="handleSaveScore(event)" class="space-y-4">
+                <input type="hidden" id="modalMatchId">
+
+                <!-- Match Info Header -->
+                <div class="text-center text-xs text-purple-300 bg-purple-950/60 p-2 rounded-lg border border-purple-900/50">
+                    <p id="modalMatchDate">Rabu, 04 Nov 2026 &bull; 16.30 WITA</p>
+                </div>
+
+                <!-- Teams Score Controls -->
+                <div class="grid grid-cols-7 items-center gap-2 py-1">
+                    <!-- Home Team -->
+                    <div class="col-span-3 text-center space-y-2">
+                        <div id="modalHomeLogo" class="w-12 h-12 mx-auto rounded-full bg-purple-900 flex items-center justify-center font-sports font-bold text-base text-cyan-300 shadow"></div>
+                        <p id="modalHomeName" class="font-bold text-xs text-white truncate max-w-full">ARUTMIN FC</p>
+                        <div class="flex items-center justify-center gap-1">
+                            <button type="button" onclick="adjustScore('homeScore', -1)" class="w-8 h-8 bg-purple-900/80 hover:bg-purple-800 text-white rounded-lg font-bold text-lg shadow">-</button>
+                            <input type="number" id="homeScore" min="0" max="99" value="0" class="w-12 h-10 bg-slate-950 border border-purple-700 rounded-lg text-center font-sports font-bold text-xl text-cyan-400 focus:outline-none">
+                            <button type="button" onclick="adjustScore('homeScore', 1)" class="w-8 h-8 bg-purple-900/80 hover:bg-purple-800 text-white rounded-lg font-bold text-lg shadow">+</button>
+                        </div>
+                    </div>
+
+                    <!-- VS Divider -->
+                    <div class="col-span-1 text-center font-sports font-bold text-purple-400 text-sm">
+                        VS
+                    </div>
+
+                    <!-- Away Team -->
+                    <div class="col-span-3 text-center space-y-2">
+                        <div id="modalAwayLogo" class="w-12 h-12 mx-auto rounded-full bg-purple-900 flex items-center justify-center font-sports font-bold text-base text-amber-300 shadow"></div>
+                        <p id="modalAwayName" class="font-bold text-xs text-white truncate max-w-full">WESS 45 FC</p>
+                        <div class="flex items-center justify-center gap-1">
+                            <button type="button" onclick="adjustScore('awayScore', -1)" class="w-8 h-8 bg-purple-900/80 hover:bg-purple-800 text-white rounded-lg font-bold text-lg shadow">-</button>
+                            <input type="number" id="awayScore" min="0" max="99" value="0" class="w-12 h-10 bg-slate-950 border border-purple-700 rounded-lg text-center font-sports font-bold text-xl text-amber-400 focus:outline-none">
+                            <button type="button" onclick="adjustScore('awayScore', 1)" class="w-8 h-8 bg-purple-900/80 hover:bg-purple-800 text-white rounded-lg font-bold text-lg shadow">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Match Status Selection -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-semibold text-purple-300">Status Pertandingan</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="matchStatus" value="upcoming" class="peer sr-only">
+                            <div class="p-2 text-center text-xs font-semibold rounded-lg bg-slate-950 border border-purple-900 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 peer-checked:text-cyan-300 text-purple-300 transition">
+                                Mendatang
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="matchStatus" value="live" class="peer sr-only">
+                            <div class="p-2 text-center text-xs font-semibold rounded-lg bg-slate-950 border border-purple-900 peer-checked:border-rose-400 peer-checked:bg-rose-500/20 peer-checked:text-rose-300 text-purple-300 transition">
+                                🔴 LIVE
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="matchStatus" value="finished" class="peer sr-only">
+                            <div class="p-2 text-center text-xs font-semibold rounded-lg bg-slate-950 border border-purple-900 peer-checked:border-emerald-400 peer-checked:bg-emerald-500/20 peer-checked:text-emerald-300 text-purple-300 transition">
+                                Selesai
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Admin PIN Security Input -->
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-semibold text-amber-400 flex items-center gap-1">
+                            <i class="fa-solid fa-key text-[10px]"></i> PIN Admin Panitia
+                        </label>
+                        <span class="text-[10px] text-purple-400">(Default: 2026)</span>
+                    </div>
+                    <input type="password" id="adminPinInput" required placeholder="Masukkan PIN Panitia..." value="2026" class="w-full bg-slate-950 border border-purple-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 placeholder-purple-500">
+                </div>
+
+                <!-- Submit Action Buttons -->
+                <div class="flex items-center gap-2 pt-2">
+                    <button type="button" onclick="handleClearScore()" class="w-1/3 bg-purple-950 hover:bg-purple-900 text-purple-300 py-2.5 rounded-lg text-xs font-bold border border-purple-800">
+                        Reset Pertandingan
+                    </button>
+                    <button type="submit" class="w-2/3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold py-2.5 rounded-lg text-xs shadow-lg shadow-cyan-500/20">
+                        Simpan Skor & D1 Sync
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: QUICK MATCH SELECTION -->
+    <div id="quickInputModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-2xl p-5 border border-purple-600/40 shadow-2xl space-y-4 max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between border-b border-purple-800/40 pb-3">
+                <h3 class="font-sports font-bold text-lg text-white">Pilih Pertandingan Untuk Input Skor</h3>
+                <button onclick="closeModal('quickInputModal')" class="text-purple-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <p class="text-xs text-purple-300">Pilih salah satu pertandingan di bawah untuk membuka modal update skor:</p>
+            
+            <div id="quickMatchList" class="overflow-y-auto space-y-2 flex-grow pr-1">
+                <!-- Dynamic Quick List -->
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM CONFIRMATION MODAL -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-2xl p-5 border border-purple-600/40 shadow-2xl space-y-4 text-center">
+            <div class="w-12 h-12 mx-auto rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="font-sports font-bold text-lg text-white">Konfirmasi Reset Data</h3>
+            <p class="text-xs text-purple-300">Apakah Anda yakin ingin mereset seluruh skor dan hasil pertandingan ke jadwal awal?</p>
+            <div class="flex items-center gap-2 pt-2">
+                <button onclick="closeModal('confirmModal')" class="w-1/2 bg-purple-950 hover:bg-purple-900 text-purple-300 py-2 rounded-lg text-xs font-bold border border-purple-800">
+                    Batal
+                </button>
+                <button onclick="executeResetData()" class="w-1/2 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2 rounded-lg text-xs shadow-md">
+                    Ya, Reset Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-500 text-slate-950 font-bold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 text-sm transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-base"></i>
+        <span id="toastMsg">Skor berhasil diperbarui!</span>
+    </div>
+
+    <!-- APP SCRIPT LOGIC -->
+    <script>
+        // OFFICIAL TOURNAMENT TEAMS DATA
+        const GROUPS_DATA = {
+            'A': [
+                { name: 'ARGA KUSUMA FC', short: 'AK', color: 'from-amber-500 to-amber-700' },
+                { name: 'TANJUNG PUTRA FC', short: 'TP', color: 'from-cyan-500 to-blue-600' },
+                { name: 'SPNS FC', short: 'SP', color: 'from-red-600 to-rose-800' },
+                { name: 'PANTAI FC', short: 'PT', color: 'from-purple-600 to-indigo-800' }
+            ],
+            'B': [
+                { name: 'DEWANTARA FC', short: 'DW', color: 'from-red-700 to-purple-900' },
+                { name: 'WITAMA FC', short: 'WT', color: 'from-purple-500 to-indigo-600' },
+                { name: 'ARSEM FC', short: 'AS', color: 'from-teal-500 to-emerald-700' },
+                { name: 'PUTRA DIAMOND FC', short: 'PD', color: 'from-blue-500 to-cyan-600' }
+            ],
+            'C': [
+                { name: 'WESS 45 FC', short: 'WS', color: 'from-slate-600 to-zinc-800' },
+                { name: 'PUTRA PAMSEL FC', short: 'PP', color: 'from-orange-600 to-amber-700' },
+                { name: 'PELITAR FC', short: 'PL', color: 'from-emerald-600 to-green-800' },
+                { name: 'ARUTMIN FC', short: 'AR', color: 'from-purple-600 to-pink-600' }
+            ],
+            'D': [
+                { name: 'GMD FC', short: 'GM', color: 'from-amber-600 to-yellow-800' },
+                { name: 'PSG FC', short: 'PS', color: 'from-cyan-600 to-teal-800' },
+                { name: 'KESUMA PUTRA FC', short: 'KP', color: 'from-rose-600 to-red-800' },
+                { name: 'BINA BERSAMA FC', short: 'BB', color: 'from-indigo-600 to-blue-800' }
+            ]
+        };
+
+        // INITIAL 24 MATCHES DATA
+        const INITIAL_MATCHES = [
+            { id: 1, day: "Rab", date: "04 Nov 2026", time: "16.30 WITA", group: "C", home: "ARUTMIN FC", away: "WESS 45 FC", homeScore: 2, awayScore: 1, status: "finished" },
+            { id: 2, day: "Kam", date: "05 Nov 2026", time: "15.00 WITA", group: "C", home: "PELITAR FC", away: "PUTRA PAMSEL FC", homeScore: 1, awayScore: 1, status: "finished" },
+            { id: 3, day: "Kam", date: "05 Nov 2026", time: "16.30 WITA", group: "A", home: "TANJUNG PUTRA FC", away: "PANTAI FC", homeScore: 3, awayScore: 0, status: "finished" },
+            { id: 4, day: "Jum", date: "06 Nov 2026", time: "16.30 WITA", group: "A", home: "ARGA KUSUMA FC", away: "SPNS FC", homeScore: null, awayScore: null, status: "live" },
+            { id: 5, day: "Sab", date: "07 Nov 2026", time: "15.00 WITA", group: "B", home: "DEWANTARA FC", away: "WITAMA FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 6, day: "Sab", date: "07 Nov 2026", time: "16.30 WITA", group: "D", home: "GMD FC", away: "PSG FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 7, day: "Min", date: "08 Nov 2026", time: "15.00 WITA", group: "B", home: "ARSEM FC", away: "PUTRA DIAMOND FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 8, day: "Min", date: "08 Nov 2026", time: "16.30 WITA", group: "D", home: "KESUMA PUTRA FC", away: "BINA BERSAMA FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 9, day: "Sen", date: "09 Nov 2026", time: "15.00 WITA", group: "A", home: "SPNS FC", away: "TANJUNG PUTRA FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 10, day: "Sen", date: "09 Nov 2026", time: "16.30 WITA", group: "C", home: "PELITAR FC", away: "WESS 45 FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 11, day: "Sel", date: "10 Nov 2026", time: "15.00 WITA", group: "A", home: "ARGA KUSUMA FC", away: "PANTAI FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 12, day: "Sel", date: "10 Nov 2026", time: "16.30 WITA", group: "B", home: "DEWANTARA FC", away: "ARSEM FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 13, day: "Rab", date: "11 Nov 2026", time: "15.00 WITA", group: "D", home: "KESUMA PUTRA FC", away: "GMD FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 14, day: "Rab", date: "11 Nov 2026", time: "16.30 WITA", group: "C", home: "ARUTMIN FC", away: "PUTRA PAMSEL FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 15, day: "Kam", date: "12 Nov 2026", time: "15.00 WITA", group: "D", home: "PSG FC", away: "BINA BERSAMA FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 16, day: "Kam", date: "12 Nov 2026", time: "16.30 WITA", group: "B", home: "WITAMA FC", away: "PUTRA DIAMOND FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 17, day: "Jum", date: "13 Nov 2026", time: "15.00 WITA", group: "C", home: "WESS 45 FC", away: "PUTRA PAMSEL FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 18, day: "Jum", date: "13 Nov 2026", time: "16.30 WITA", group: "A", home: "SPNS FC", away: "PANTAI FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 19, day: "Sab", date: "14 Nov 2026", time: "15.00 WITA", group: "B", home: "DEWANTARA FC", away: "PUTRA DIAMOND FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 20, day: "Sab", date: "14 Nov 2026", time: "16.30 WITA", group: "A", home: "ARGA KUSUMA FC", away: "TANJUNG PUTRA FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 21, day: "Min", date: "15 Nov 2026", time: "15.00 WITA", group: "B", home: "ARSEM FC", away: "WITAMA FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 22, day: "Min", date: "15 Nov 2026", time: "16.30 WITA", group: "D", home: "GMD FC", away: "BINA BERSAMA FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 23, day: "Sen", date: "16 Nov 2026", time: "15.00 WITA", group: "C", home: "ARUTMIN FC", away: "PELITAR FC", homeScore: null, awayScore: null, status: "upcoming" },
+            { id: 24, day: "Sen", date: "16 Nov 2026", time: "16.30 WITA", group: "D", home: "KESUMA PUTRA FC", away: "PSG FC", homeScore: null, awayScore: null, status: "upcoming" }
+        ];
+
+        // Global State
+        let matches = [];
+        let currentGroupFilter = 'ALL';
+        let isD1Connected = false;
+
+        // Initialize App & Fetch Data
+        async function initApp() {
+            await fetchMatches();
+            renderAll();
+        }
+
+        // FETCH DATA FROM CLOUDFLARE D1 API WITH FALLBACK TO LOCAL STORAGE
+        async function fetchMatches() {
+            try {
+                // Try fetching from Cloudflare Pages Function endpoint
+                const response = await fetch('/api/matches', { method: 'GET' });
+                if (response.ok) {
+                    const d1Data = await response.json();
+                    if (Array.isArray(d1Data) && d1Data.length > 0) {
+                        matches = mapD1DataToMatches(d1Data);
+                        setD1Status(true);
+                        return;
+                    }
+                }
+            } catch (err) {
+                // Network error or endpoint not deployed yet (local web preview mode)
+            }
+
+            // Fallback: LocalStorage / Initial Data
+            setD1Status(false);
+            const saved = localStorage.getItem('arutmin_cup_2026_matches');
+            if (saved) {
+                try {
+                    matches = JSON.parse(saved);
+                } catch (e) {
+                    matches = JSON.parse(JSON.stringify(INITIAL_MATCHES));
+                }
+            } else {
+                matches = JSON.parse(JSON.stringify(INITIAL_MATCHES));
+            }
+        }
+
+        function setD1Status(connected) {
+            isD1Connected = connected;
+            const badge = document.getElementById('d1ConnectionBadge');
+            const text = document.getElementById('d1StatusText');
+            const footerText = document.getElementById('footerEngineText');
+
+            if (connected) {
+                badge.className = "hidden sm:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-700/50";
+                text.innerText = "Cloudflare D1 Live API";
+                footerText.innerText = "Terhubung dengan Cloudflare D1 Database API";
+            } else {
+                badge.className = "hidden sm:inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-900/60 text-cyan-300 border border-purple-700/50";
+                text.innerText = "Editor Local Engine";
+                footerText.innerText = "Mode Editor Web & Local Storage Engine";
+            }
+        }
+
+        function mapD1DataToMatches(d1Results) {
+            return d1Results.map(r => ({
+                id: r.id,
+                day: r.match_day || getDayFromDate(r.match_date),
+                date: r.match_date,
+                time: r.match_time,
+                group: r.pool || r.group,
+                home: r.home_team,
+                away: r.away_team,
+                homeScore: r.home_score,
+                awayScore: r.away_score,
+                status: r.status
+            }));
+        }
+
+        function getDayFromDate(dateStr) {
+            return "TBD";
+        }
+
+        function renderAll() {
+            renderStats();
+            renderMatches();
+            renderStandings();
+            renderTeams();
+        }
+
+        function getTeamMeta(teamName) {
+            for (let grp in GROUPS_DATA) {
+                const found = GROUPS_DATA[grp].find(t => t.name === teamName);
+                if (found) return found;
+            }
+            return { short: teamName.substring(0, 2), color: 'from-purple-600 to-indigo-800' };
+        }
+
+        function renderStats() {
+            const total = matches.length;
+            const finished = matches.filter(m => m.status === 'finished').length;
+            let totalGoals = 0;
+            matches.forEach(m => {
+                if (m.homeScore !== null) totalGoals += parseInt(m.homeScore || 0);
+                if (m.awayScore !== null) totalGoals += parseInt(m.awayScore || 0);
+            });
+
+            document.getElementById('statTotalMatches').innerText = total;
+            document.getElementById('statFinishedMatches').innerText = finished;
+            document.getElementById('statTotalGoals').innerText = totalGoals;
+        }
+
+        function filterGroup(grp) {
+            currentGroupFilter = grp;
+            document.querySelectorAll('.grp-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-cyan-500', 'text-slate-950');
+                btn.classList.add('bg-purple-900/60', 'text-purple-200');
+            });
+            const activeBtn = document.getElementById(`filterGrp-${grp}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-purple-900/60', 'text-purple-200');
+                activeBtn.classList.add('bg-cyan-500', 'text-slate-950');
+            }
+            renderMatches();
+        }
+
+        function renderMatches() {
+            const container = document.getElementById('matchesContainer');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const statusVal = document.getElementById('statusFilter').value;
+
+            const filtered = matches.filter(m => {
+                const matchGrp = currentGroupFilter === 'ALL' || m.group === currentGroupFilter;
+                const matchStatus = statusVal === 'ALL' || m.status === statusVal;
+                const matchSearch = m.home.toLowerCase().includes(searchVal) || 
+                                    m.away.toLowerCase().includes(searchVal) || 
+                                    m.date.toLowerCase().includes(searchVal);
+                return matchGrp && matchStatus && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-purple-400 glass-panel rounded-xl">
+                        <i class="fa-solid fa-circle-exclamation text-3xl mb-2 text-purple-500"></i>
+                        <p class="text-sm font-semibold">Tidak ada pertandingan yang cocok dengan filter Anda.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(m => {
+                const homeMeta = getTeamMeta(m.home);
+                const awayMeta = getTeamMeta(m.away);
+
+                let statusBadge = '';
+                if (m.status === 'finished') {
+                    statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-300"><i class="fa-solid fa-check text-[9px] mr-1"></i>SELESAI</span>`;
+                } else if (m.status === 'live') {
+                    statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 border border-rose-500/40 text-rose-300 animate-pulse"><i class="fa-solid fa-circle text-[8px] mr-1"></i>LIVE</span>`;
+                } else {
+                    statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-900/60 border border-purple-700/50 text-purple-300">MENDATANG</span>`;
+                }
+
+                const scoreDisplay = (m.status === 'finished' || m.status === 'live')
+                    ? `<div class="font-sports font-bold text-2xl text-cyan-400 px-3 py-1 bg-slate-950/90 rounded-lg border border-purple-800/80 shadow-inner">
+                        ${m.homeScore !== null ? m.homeScore : 0} - ${m.awayScore !== null ? m.awayScore : 0}
+                       </div>`
+                    : `<div class="font-sports font-bold text-sm text-purple-400 px-3 py-1 bg-slate-950/60 rounded-lg border border-purple-900/40">
+                        VS
+                       </div>`;
+
+                return `
+                    <div class="glass-panel glass-panel-hover p-4 rounded-xl flex flex-col justify-between relative overflow-hidden group">
+                        <div class="flex items-center justify-between border-b border-purple-900/40 pb-2.5 mb-3 text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-purple-800 text-cyan-300 px-2 py-0.5 rounded text-[10px] font-bold">POOL ${m.group}</span>
+                                <span class="text-purple-300 font-semibold"><i class="fa-regular fa-calendar-check mr-1 text-purple-400"></i>${m.day}, ${m.date}</span>
+                            </div>
+                            <div>${statusBadge}</div>
+                        </div>
+
+                        <div class="grid grid-cols-7 items-center my-2 gap-1">
+                            <!-- Home Team -->
+                            <div class="col-span-3 text-center space-y-1.5">
+                                <div class="w-10 h-10 mx-auto rounded-full bg-gradient-to-tr ${homeMeta.color} flex items-center justify-center text-white font-sports font-bold text-sm shadow-md border border-white/20">
+                                    ${homeMeta.short}
+                                </div>
+                                <h4 class="font-bold text-xs text-slate-100 truncate max-w-full px-1" title="${m.home}">${m.home}</h4>
+                            </div>
+
+                            <!-- VS / Score -->
+                            <div class="col-span-1 flex flex-col items-center justify-center">
+                                ${scoreDisplay}
+                                <span class="text-[10px] text-purple-400 mt-1 font-semibold">${m.time}</span>
+                            </div>
+
+                            <!-- Away Team -->
+                            <div class="col-span-3 text-center space-y-1.5">
+                                <div class="w-10 h-10 mx-auto rounded-full bg-gradient-to-tr ${awayMeta.color} flex items-center justify-center text-white font-sports font-bold text-sm shadow-md border border-white/20">
+                                    ${awayMeta.short}
+                                </div>
+                                <h4 class="font-bold text-xs text-slate-100 truncate max-w-full px-1" title="${m.away}">${m.away}</h4>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 pt-2.5 border-t border-purple-900/30 flex items-center justify-between">
+                            <span class="text-[10px] text-purple-400"><i class="fa-solid fa-hashtag mr-0.5"></i>Match #${m.id}</span>
+                            <button onclick="openScoreModal(${m.id})" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 hover:underline">
+                                <i class="fa-solid fa-pen-to-square text-[11px]"></i> Input / Edit Skor
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function calculateStandings() {
+            const standings = {};
+
+            for (let group in GROUPS_DATA) {
+                standings[group] = GROUPS_DATA[group].map(team => ({
+                    name: team.name,
+                    short: team.short,
+                    color: team.color,
+                    P: 0, W: 0, D: 0, L: 0, GF: 0, GA: 0, GD: 0, PTS: 0
+                }));
+            }
+
+            matches.forEach(m => {
+                if (m.status === 'finished' && m.homeScore !== null && m.awayScore !== null) {
+                    const groupTeams = standings[m.group];
+                    if (!groupTeams) return;
+
+                    const homeObj = groupTeams.find(t => t.name === m.home);
+                    const awayObj = groupTeams.find(t => t.name === m.away);
+
+                    if (homeObj && awayObj) {
+                        const hSc = parseInt(m.homeScore);
+                        const aSc = parseInt(m.awayScore);
+
+                        homeObj.P += 1;
+                        awayObj.P += 1;
+
+                        homeObj.GF += hSc;
+                        homeObj.GA += aSc;
+                        awayObj.GF += aSc;
+                        awayObj.GA += hSc;
+
+                        if (hSc > aSc) {
+                            homeObj.W += 1;
+                            homeObj.PTS += 3;
+                            awayObj.L += 1;
+                        } else if (hSc < aSc) {
+                            awayObj.W += 1;
+                            awayObj.PTS += 3;
+                            homeObj.L += 1;
+                        } else {
+                            homeObj.D += 1;
+                            homeObj.PTS += 1;
+                            awayObj.D += 1;
+                            awayObj.PTS += 1;
+                        }
+
+                        homeObj.GD = homeObj.GF - homeObj.GA;
+                        awayObj.GD = awayObj.GF - awayObj.GA;
+                    }
+                }
+            });
+
+            // Sort: Points -> GD -> GF
+            for (let group in standings) {
+                standings[group].sort((a, b) => {
+                    if (b.PTS !== a.PTS) return b.PTS - a.PTS;
+                    if (b.GD !== a.GD) return b.GD - a.GD;
+                    if (b.GF !== a.GF) return b.GF - a.GF;
+                    return a.name.localeCompare(b.name);
+                });
+            }
+
+            return standings;
+        }
+
+        function renderStandings() {
+            const container = document.getElementById('standingsContainer');
+            const standings = calculateStandings();
+
+            let html = '';
+
+            for (let group of ['A', 'B', 'C', 'D']) {
+                const teams = standings[group];
+
+                html += `
+                    <div class="glass-panel p-4 rounded-xl border border-purple-800/40 space-y-3 shadow-lg">
+                        <div class="flex items-center justify-between border-b border-purple-900/50 pb-2">
+                            <h3 class="font-sports font-bold text-lg text-cyan-300 flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-cyan-400 inline-block shadow-sm shadow-cyan-400"></span>
+                                KLASEMEN POOL ${group}
+                            </h3>
+                            <span class="text-[10px] text-purple-300 bg-purple-950/80 px-2 py-0.5 rounded border border-purple-800">Top 2 Lolos 8 Besar</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs text-left">
+                                <thead>
+                                    <tr class="text-purple-300 border-b border-purple-900/60 uppercase text-[10px] tracking-wider">
+                                        <th class="py-2 px-1 text-center">#</th>
+                                        <th class="py-2 px-2">Klub / Tim</th>
+                                        <th class="py-2 px-1 text-center">M</th>
+                                        <th class="py-2 px-1 text-center text-emerald-400">MN</th>
+                                        <th class="py-2 px-1 text-center text-amber-400">S</th>
+                                        <th class="py-2 px-1 text-center text-rose-400">K</th>
+                                        <th class="py-2 px-1 text-center hidden sm:table-cell">GM</th>
+                                        <th class="py-2 px-1 text-center hidden sm:table-cell">GK</th>
+                                        <th class="py-2 px-1 text-center">SG</th>
+                                        <th class="py-2 px-1 text-center font-bold text-amber-400">PTS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${teams.map((t, idx) => {
+                                        const isQualify = idx < 2;
+                                        const rankClass = isQualify 
+                                            ? 'bg-cyan-500/10 text-cyan-300 font-bold' 
+                                            : 'text-slate-300';
+                                        
+                                        const badgeBg = idx === 0 
+                                            ? 'bg-amber-500 text-slate-950' 
+                                            : (idx === 1 ? 'bg-cyan-500 text-slate-950' : 'bg-purple-900/60 text-purple-300');
+
+                                        return `
+                                            <tr class="border-b border-purple-900/30 hover:bg-purple-900/20 transition ${rankClass}">
+                                                <td class="py-2.5 px-1 text-center">
+                                                    <span class="w-5 h-5 rounded-full ${badgeBg} inline-flex items-center justify-center text-[10px] font-bold">
+                                                        ${idx + 1}
+                                                    </span>
+                                                </td>
+                                                <td class="py-2.5 px-2 font-semibold">
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="w-6 h-6 rounded-full bg-gradient-to-tr ${t.color} flex items-center justify-center text-[9px] font-bold text-white shadow-sm flex-shrink-0">
+                                                            ${t.short}
+                                                        </div>
+                                                        <span class="truncate max-w-[120px] sm:max-w-none ${isQualify ? 'text-white' : 'text-slate-300'}">${t.name}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="py-2.5 px-1 text-center font-sports text-sm">${t.P}</td>
+                                                <td class="py-2.5 px-1 text-center font-sports text-sm text-emerald-400">${t.W}</td>
+                                                <td class="py-2.5 px-1 text-center font-sports text-sm text-amber-400">${t.D}</td>
+                                                <td class="py-2.5 px-1 text-center font-sports text-sm text-rose-400">${t.L}</td>
+                                                <td class="py-2.5 px-1 text-center font-sports text-sm hidden sm:table-cell text-purple-300">${t.GF}</td>
+                                                <td class="py-2.5 px-1 text-center font-sports text-sm hidden sm:table-cell text-purple-300">${t.GA}</td>
+                                                <td class="py-2.5 px-1 text-center font-sports text-sm font-semibold ${t.GD > 0 ? 'text-emerald-400' : (t.GD < 0 ? 'text-rose-400' : 'text-purple-300')}">
+                                                    ${t.GD > 0 ? '+' + t.GD : t.GD}
+                                                </td>
+                                                <td class="py-2.5 px-1 text-center font-sports text-base font-bold text-amber-400">${t.PTS}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderTeams() {
+            const container = document.getElementById('teamsContainer');
+            let html = '';
+
+            for (let grp in GROUPS_DATA) {
+                html += `
+                    <div class="glass-panel p-4 rounded-xl space-y-3 border border-purple-800/40">
+                        <div class="border-b border-purple-900/50 pb-2 flex items-center justify-between">
+                            <h3 class="font-sports font-bold text-lg text-amber-400">POOL ${grp}</h3>
+                            <span class="text-[10px] text-purple-300 font-semibold">4 TIM</span>
+                        </div>
+                        <div class="space-y-2">
+                            ${GROUPS_DATA[grp].map(team => `
+                                <div class="flex items-center gap-3 p-2 rounded-lg bg-purple-950/40 border border-purple-900/40 hover:border-cyan-500/40 transition">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr ${team.color} flex items-center justify-center text-white font-sports font-bold text-xs shadow-md">
+                                        ${team.short}
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-xs text-slate-100">${team.name}</h4>
+                                        <p class="text-[10px] text-purple-300">Peserta Pool ${grp}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Modal score controls
+        function openScoreModal(matchId) {
+            const match = matches.find(m => m.id === matchId);
+            if (!match) return;
+
+            document.getElementById('modalMatchId').value = match.id;
+            document.getElementById('modalMatchGroup').innerText = `GROUP ${match.group}`;
+            document.getElementById('modalMatchDate').innerText = `${match.day}, ${match.date} • ${match.time}`;
+
+            document.getElementById('modalHomeName').innerText = match.home;
+            document.getElementById('modalAwayName').innerText = match.away;
+
+            const homeMeta = getTeamMeta(match.home);
+            const awayMeta = getTeamMeta(match.away);
+
+            document.getElementById('modalHomeLogo').innerText = homeMeta.short;
+            document.getElementById('modalHomeLogo').className = `w-12 h-12 mx-auto rounded-full bg-gradient-to-tr ${homeMeta.color} flex items-center justify-center font-sports font-bold text-base text-white shadow-lg border border-white/20`;
+
+            document.getElementById('modalAwayLogo').innerText = awayMeta.short;
+            document.getElementById('modalAwayLogo').className = `w-12 h-12 mx-auto rounded-full bg-gradient-to-tr ${awayMeta.color} flex items-center justify-center font-sports font-bold text-base text-white shadow-lg border border-white/20`;
+
+            document.getElementById('homeScore').value = match.homeScore !== null ? match.homeScore : 0;
+            document.getElementById('awayScore').value = match.awayScore !== null ? match.awayScore : 0;
+
+            const radios = document.getElementsByName('matchStatus');
+            radios.forEach(r => {
+                r.checked = (r.value === match.status);
+            });
+
+            closeModal('quickInputModal');
+            openModal('scoreModal');
+        }
+
+        function adjustScore(inputId, delta) {
+            const input = document.getElementById(inputId);
+            let val = parseInt(input.value) || 0;
+            val = Math.max(0, Math.min(99, val + delta));
+            input.value = val;
+        }
+
+        // SAVE SCORE WITH HYBRID D1 SERVER API & LOCAL STORAGE FALLBACK
+        async function handleSaveScore(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('modalMatchId').value);
+            const pin = document.getElementById('adminPinInput').value;
+
+            if (pin !== "2026") {
+                showToast("PIN Admin Salah! (Gunakan 2026)", true);
+                return;
+            }
+
+            const homeSc = parseInt(document.getElementById('homeScore').value);
+            const awaySc = parseInt(document.getElementById('awayScore').value);
+            
+            const radios = document.getElementsByName('matchStatus');
+            let selectedStatus = 'finished';
+            radios.forEach(r => {
+                if (r.checked) selectedStatus = r.value;
+            });
+
+            // Prepare Payload
+            const payload = {
+                id: id,
+                home_score: isNaN(homeSc) ? 0 : homeSc,
+                away_score: isNaN(awaySc) ? 0 : awaySc,
+                status: selectedStatus,
+                pin: pin
+            };
+
+            // Attempt D1 POST Call
+            let syncedToD1 = false;
+            try {
+                const res = await fetch('/api/matches', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    syncedToD1 = true;
+                }
+            } catch (err) {
+                // Fallback to local
+            }
+
+            // Always update local memory state
+            const match = matches.find(m => m.id === id);
+            if (match) {
+                match.homeScore = payload.home_score;
+                match.awayScore = payload.away_score;
+                match.status = payload.status;
+
+                localStorage.setItem('arutmin_cup_2026_matches', JSON.stringify(matches));
+                renderAll();
+                closeModal('scoreModal');
+
+                if (syncedToD1) {
+                    showToast(`Skor match #${id} tersimpan ke Cloudflare D1!`);
+                } else {
+                    showToast(`Skor match #${id} diperbarui di Editor Local!`);
+                }
+            }
+        }
+
+        function handleClearScore() {
+            const id = parseInt(document.getElementById('modalMatchId').value);
+            const pin = document.getElementById('adminPinInput').value;
+
+            if (pin !== "2026") {
+                showToast("PIN Admin Salah!", true);
+                return;
+            }
+
+            const match = matches.find(m => m.id === id);
+            if (match) {
+                match.homeScore = null;
+                match.awayScore = null;
+                match.status = 'upcoming';
+
+                localStorage.setItem('arutmin_cup_2026_matches', JSON.stringify(matches));
+                renderAll();
+                closeModal('scoreModal');
+                showToast(`Status Match #${id} dikembalikan ke Mendatang.`);
+            }
+        }
+
+        function openResetConfirmModal() {
+            openModal('confirmModal');
+        }
+
+        function executeResetData() {
+            matches = JSON.parse(JSON.stringify(INITIAL_MATCHES));
+            localStorage.setItem('arutmin_cup_2026_matches', JSON.stringify(matches));
+            renderAll();
+            closeModal('confirmModal');
+            showToast("Semua data berhasil di-reset!");
+        }
+
+        function renderQuickMatchList() {
+            const listEl = document.getElementById('quickMatchList');
+            listEl.innerHTML = matches.map(m => `
+                <div onclick="openScoreModal(${m.id})" class="p-3 bg-purple-950/60 hover:bg-purple-900 border border-purple-800/50 rounded-xl cursor-pointer flex items-center justify-between transition">
+                    <div class="space-y-0.5">
+                        <span class="text-[10px] text-cyan-300 bg-purple-900 px-1.5 py-0.5 rounded font-bold">Group ${m.group}</span>
+                        <p class="font-bold text-xs text-white">${m.home} vs ${m.away}</p>
+                        <p class="text-[10px] text-purple-300">${m.day}, ${m.date} (${m.time})</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-sports font-bold ${m.status==='finished'?'text-emerald-400':(m.status==='live'?'text-rose-400':'text-purple-400')}">
+                            ${m.status === 'finished' ? `${m.homeScore} - ${m.awayScore}` : (m.status === 'live' ? 'LIVE' : 'VS')}
+                        </span>
+                        <div class="text-[10px] text-purple-400 mt-1"><i class="fa-solid fa-chevron-right"></i></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function shareStandings() {
+            const standings = calculateStandings();
+            let text = `🏆 *KLASEMEN ARUTMIN CUP XVII 2026* 🏆\n📍 *Desa Tanjung Batu, Kab. Kotabaru*\n\n`;
+
+            for (let grp in standings) {
+                text += `*--- POOL ${grp} ---*\n`;
+                standings[grp].forEach((t, i) => {
+                    text += `${i+1}. ${t.name} | M:${t.P} SG:${t.GD>0?'+'+t.GD:t.GD} Pts:${t.PTS}\n`;
+                });
+                text += `\n`;
+            }
+
+            text += `Info lengkap pertandingan: Arutmin Cup XVII 2026`;
+            
+            const encoded = encodeURIComponent(text);
+            window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-cyan-400', 'text-cyan-400');
+                btn.classList.add('border-transparent', 'text-purple-300');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-purple-300');
+                activeBtn.classList.add('border-cyan-400', 'text-cyan-400');
+            }
+        }
+
+        function openModal(id) {
+            if (id === 'quickInputModal') {
+                renderQuickMatchList();
+            }
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.innerText = msg;
+            
+            if (isError) {
+                toast.className = "fixed bottom-5 right-5 z-50 bg-rose-500 text-white font-bold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 text-sm transition-all duration-300";
+            } else {
+                toast.className = "fixed bottom-5 right-5 z-50 bg-emerald-500 text-slate-950 font-bold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 text-sm transition-all duration-300";
+            }
+
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        window.onload = function() {
+            initApp();
+        };
+    </script>
+</body>
+</html>
