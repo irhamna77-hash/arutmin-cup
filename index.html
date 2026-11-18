@@ -686,7 +686,7 @@
             if (d1Knockout.length > 0) {
                 knockoutMatches = defaultKnockout.map(initM => {
                     const found = d1Knockout.find(k => k.id === initM.id);
-                    return found ? found : initM;
+                    return found ? { ...initM, homeScore: found.homeScore, awayScore: found.awayScore, status: found.status } : initM;
                 });
             } else if (savedKnockout) {
                 try { knockoutMatches = JSON.parse(savedKnockout); } catch (e) { knockoutMatches = defaultKnockout; }
