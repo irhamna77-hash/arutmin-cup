@@ -311,7 +311,7 @@
 
     </main>
 
-    <!-- FOOTER (DISESUAIKAN TOTAL AGAR BERBEDA SECARA VISUAL DENGAN HEADER) -->
+    <!-- FOOTER -->
     <footer class="w-full bg-slate-900 text-slate-400 border-t border-slate-800 py-6 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-xs">
             <div class="space-y-1">
@@ -360,13 +360,13 @@
         </div>
     </div>
 
-    <!-- MODAL: UPDATE / INPUT SKOR ADMIN -->
+    <!-- MODAL: UPDATE / INPUT JADWAL & SKOR ADMIN -->
     <div id="scoreModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bright-card w-full max-w-md rounded-2xl p-5 shadow-2xl space-y-4 border-2 border-sky-500 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between border-b border-slate-200 pb-3">
                 <div>
                     <span id="modalMatchGroup" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-sky-100 text-sky-700">GROUP A</span>
-                    <h3 class="font-sports font-bold text-lg text-slate-900 mt-1">Input Skor Pertandingan</h3>
+                    <h3 class="font-sports font-bold text-lg text-slate-900 mt-1">Edit Jadwal & Skor Pertandingan</h3>
                 </div>
                 <button onclick="closeModal('scoreModal')" class="text-slate-400 hover:text-slate-700 text-lg">
                     <i class="fa-solid fa-xmark"></i>
@@ -376,9 +376,20 @@
             <form id="scoreForm" onsubmit="handleSaveScore(event)" class="space-y-4">
                 <input type="hidden" id="modalMatchId">
 
-                <!-- Match Info Header -->
-                <div class="text-center text-xs text-slate-600 bg-slate-100 p-2 rounded-lg border border-slate-200 font-semibold">
-                    <p id="modalMatchDate">Rabu, 04 Nov 2026 &bull; 16.30 WITA</p>
+                <!-- Edit Tanggal & Jam Pertandingan -->
+                <div class="grid grid-cols-2 gap-2.5 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div class="space-y-1">
+                        <label for="modalInputDate" class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                            <i class="fa-regular fa-calendar text-sky-600"></i> Tanggal Main
+                        </label>
+                        <input type="date" id="modalInputDate" required class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label for="modalInputTime" class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                            <i class="fa-regular fa-clock text-sky-600"></i> Jam Kick-Off
+                        </label>
+                        <input type="text" id="modalInputTime" required placeholder="16.30 WITA" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:border-sky-500">
+                    </div>
                 </div>
 
                 <!-- Teams Score Controls -->
@@ -456,13 +467,13 @@
     <div id="quickInputModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bright-card w-full max-w-lg rounded-2xl p-5 border-2 border-sky-500 shadow-2xl space-y-4 max-h-[85vh] flex flex-col">
             <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-                <h3 class="font-sports font-bold text-lg text-slate-900">Pilih Pertandingan Untuk Input Skor</h3>
+                <h3 class="font-sports font-bold text-lg text-slate-900">Pilih Pertandingan (Edit Jadwal / Skor)</h3>
                 <button onclick="closeModal('quickInputModal')" class="text-slate-400 hover:text-slate-700 text-lg">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             
-            <p class="text-xs text-slate-600">Pilih pertandingan di bawah untuk memperbarui skor:</p>
+            <p class="text-xs text-slate-600">Pilih pertandingan di bawah untuk mengubah tanggal, jam, atau skor:</p>
             
             <div id="quickMatchList" class="overflow-y-auto space-y-2 flex-grow pr-1">
                 <!-- Dynamic Quick List -->
@@ -477,7 +488,7 @@
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
             <h3 class="font-sports font-bold text-lg text-slate-900">Konfirmasi Reset Data</h3>
-            <p class="text-xs text-slate-600">Apakah Anda yakin ingin mereset seluruh skor dan hasil pertandingan ke jadwal awal?</p>
+            <p class="text-xs text-slate-600">Apakah Anda yakin ingin mereset seluruh skor dan jadwal lokal ke data awal?</p>
             <div class="flex items-center gap-2 pt-2">
                 <button onclick="closeModal('confirmModal')" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 rounded-lg text-xs font-bold">
                     Batal
@@ -492,7 +503,7 @@
     <!-- TOAST NOTIFICATION -->
     <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-600 text-white font-bold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 text-sm transition-all duration-300">
         <i class="fa-solid fa-circle-check text-base"></i>
-        <span id="toastMsg">Skor berhasil diperbarui!</span>
+        <span id="toastMsg">Data berhasil diperbarui!</span>
     </div>
 
     <!-- APP SCRIPT LOGIC -->
@@ -577,6 +588,39 @@
         let isD1Connected = false;
         let isAdminLoggedIn = false;
 
+        // HELPER FORMAT TANGGAL INDONESIA
+        function parseDateToISO(dateStr) {
+            if (!dateStr) return '2026-11-04';
+            if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr.trim())) return dateStr.trim();
+            const months = {
+                'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04',
+                'mei': '05', 'may': '05', 'jun': '06', 'jul': '07',
+                'agu': '08', 'ags': '08', 'aug': '08', 'sep': '09',
+                'okt': '10', 'oct': '10', 'nov': '11', 'des': '12', 'dec': '12'
+            };
+            const parts = dateStr.trim().split(/\s+/);
+            if (parts.length === 3) {
+                const d = parts[0].padStart(2, '0');
+                const m = months[parts[1].toLowerCase().substring(0, 3)] || '11';
+                const y = parts[2];
+                return `${y}-${m}-${d}`;
+            }
+            return '2026-11-04';
+        }
+
+        function formatDisplayDate(dateStr) {
+            const iso = parseDateToISO(dateStr);
+            const [y, m, d] = iso.split('-').map(Number);
+            const dt = new Date(y, m - 1, d);
+            const days = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            return {
+                iso: iso,
+                day: days[dt.getDay()] || 'Match',
+                date: `${String(d).padStart(2, '0')} ${monthNames[m - 1]} ${y}`
+            };
+        }
+
         // Initialize App & Fetch Data
         async function initApp() {
             checkAdminSession();
@@ -598,7 +642,7 @@
                 container.innerHTML = `
                     <button onclick="openModal('quickInputModal')" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1 shadow-md transition">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        <span>Input Skor</span>
+                        <span>Jadwal & Skor</span>
                     </button>
                     <button onclick="openResetConfirmModal()" title="Reset Data" class="bg-slate-800 hover:bg-rose-900 text-slate-300 hover:text-white border border-slate-700 p-1.5 rounded-lg text-xs transition">
                         <i class="fa-solid fa-rotate-left"></i>
@@ -686,7 +730,15 @@
             if (d1Knockout.length > 0) {
                 knockoutMatches = defaultKnockout.map(initM => {
                     const found = d1Knockout.find(k => k.id === initM.id);
-                    return found ? { ...initM, homeScore: found.homeScore, awayScore: found.awayScore, status: found.status } : initM;
+                    return found ? {
+                        ...initM,
+                        day: found.day || initM.day,
+                        date: found.date || initM.date,
+                        time: found.time || initM.time,
+                        homeScore: found.homeScore,
+                        awayScore: found.awayScore,
+                        status: found.status
+                    } : initM;
                 });
             } else if (savedKnockout) {
                 try { knockoutMatches = JSON.parse(savedKnockout); } catch (e) { knockoutMatches = defaultKnockout; }
@@ -712,20 +764,23 @@
         }
 
         function mapD1DataToMatches(d1Results) {
-            return d1Results.map(r => ({
-                id: r.id,
-                stage: r.stage || "",
-                stageTitle: r.stage_title || "",
-                day: r.match_day || "Match",
-                date: r.match_date,
-                time: r.match_time,
-                group: r.pool || r.group,
-                home: r.home_team,
-                away: r.away_team,
-                homeScore: r.home_score,
-                awayScore: r.away_score,
-                status: r.status
-            }));
+            return d1Results.map(r => {
+                const formatted = formatDisplayDate(r.match_date);
+                return {
+                    id: r.id,
+                    stage: r.stage || "",
+                    stageTitle: r.stage_title || "",
+                    day: r.match_day || formatted.day,
+                    date: formatted.date,
+                    time: r.match_time,
+                    group: r.pool || r.group,
+                    home: r.home_team,
+                    away: r.away_team,
+                    homeScore: r.home_score,
+                    awayScore: r.away_score,
+                    status: r.status
+                };
+            });
         }
 
         function renderAll() {
@@ -850,7 +905,7 @@
 
             const cardFooterAction = isAdminLoggedIn ? `
                 <button onclick="openScoreModal(${m.id})" class="text-xs font-bold text-sky-700 hover:text-sky-900 flex items-center gap-1 hover:underline">
-                    <i class="fa-solid fa-pen-to-square text-[11px]"></i> Edit Skor
+                    <i class="fa-solid fa-pen-to-square text-[11px]"></i> Edit Jadwal & Skor
                 </button>
             ` : `<span class="text-[10px] text-slate-500">Arutmin Cup 2026</span>`;
 
@@ -909,7 +964,6 @@
             }
 
             matches.forEach(m => {
-                // Hitung jika status finished
                 if (m.status === 'finished' && m.homeScore !== null && m.awayScore !== null) {
                     const groupTeams = standings[m.group];
                     if (!groupTeams) return;
@@ -1203,7 +1257,10 @@
 
             document.getElementById('modalMatchId').value = match.id;
             document.getElementById('modalMatchGroup').innerText = match.stageTitle || `GROUP ${match.group}`;
-            document.getElementById('modalMatchDate').innerText = `${match.day}, ${match.date} • ${match.time}`;
+            
+            // Isi input Tanggal & Jam saat ini
+            document.getElementById('modalInputDate').value = parseDateToISO(match.date);
+            document.getElementById('modalInputTime').value = match.time || '16.30 WITA';
 
             document.getElementById('modalHomeName').innerText = match.home;
             document.getElementById('modalAwayName').innerText = match.away;
@@ -1222,7 +1279,6 @@
                 r.checked = (r.value === match.status);
             });
 
-            // Default kan ke Finished jika match baru saja diisi skornya
             if (match.status !== 'live' && match.status !== 'upcoming') {
                 autoSelectFinishedStatus();
             }
@@ -1236,8 +1292,6 @@
             let val = parseInt(input.value) || 0;
             val = Math.max(0, Math.min(99, val + delta));
             input.value = val;
-            
-            // Otomatis tandai status sebagai Selesai saat skor diubah
             autoSelectFinishedStatus();
         }
 
@@ -1251,19 +1305,27 @@
             const id = parseInt(document.getElementById('modalMatchId').value);
             const pin = document.getElementById('adminPinInput').value;
 
+            const newDateISO = document.getElementById('modalInputDate').value;
+            const newTime = document.getElementById('modalInputTime').value.trim() || '16.30 WITA';
+            const formattedDate = formatDisplayDate(newDateISO);
+
             const homeSc = parseInt(document.getElementById('homeScore').value);
             const awaySc = parseInt(document.getElementById('awayScore').value);
             
             const radios = document.getElementsByName('matchStatus');
-            let selectedStatus = 'finished';
+            let selectedStatus = 'upcoming';
             radios.forEach(r => {
                 if (r.checked) selectedStatus = r.value;
             });
 
+            const isUpcoming = (selectedStatus === 'upcoming');
+
             const payload = {
                 id: id,
-                home_score: isNaN(homeSc) ? 0 : homeSc,
-                away_score: isNaN(awaySc) ? 0 : awaySc,
+                match_date: formattedDate.iso,
+                match_time: newTime,
+                home_score: isUpcoming ? null : (isNaN(homeSc) ? 0 : homeSc),
+                away_score: isUpcoming ? null : (isNaN(awaySc) ? 0 : awaySc),
                 status: selectedStatus,
                 pin: pin
             };
@@ -1278,6 +1340,9 @@
             }
 
             if (match) {
+                match.day = formattedDate.day;
+                match.date = formattedDate.date;
+                match.time = newTime;
                 match.homeScore = payload.home_score;
                 match.awayScore = payload.away_score;
                 match.status = payload.status;
@@ -1304,14 +1369,15 @@
             } catch (err) {}
 
             if (syncedToD1) {
-                showToast(`Skor match #${id} tersimpan ke Cloudflare D1!`);
+                showToast(`Jadwal & skor match #${id} tersimpan ke Cloudflare D1!`);
             } else {
-                showToast(`Skor match #${id} berhasil diperbarui!`);
+                showToast(`Jadwal & skor match #${id} berhasil diperbarui!`);
             }
         }
 
-        function handleClearScore() {
+        async function handleClearScore() {
             const id = parseInt(document.getElementById('modalMatchId').value);
+            const pin = document.getElementById('adminPinInput').value;
             let match = matches.find(m => m.id === id) || knockoutMatches.find(m => m.id === id);
             
             if (match) {
@@ -1324,6 +1390,21 @@
                 
                 renderAll();
                 closeModal('scoreModal');
+
+                try {
+                    await fetch('/api/matches', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            id: id,
+                            home_score: null,
+                            away_score: null,
+                            status: 'upcoming',
+                            pin: pin
+                        })
+                    });
+                } catch (err) {}
+
                 showToast(`Status Match #${id} dikembalikan ke Mendatang.`);
             }
         }
@@ -1339,7 +1420,7 @@
             localStorage.setItem('arutmin_cup_2026_knockout', JSON.stringify(knockoutMatches));
             renderAll();
             closeModal('confirmModal');
-            showToast("Semua data berhasil di-reset ke jadwal awal!");
+            showToast("Semua data lokal berhasil di-reset ke jadwal awal!");
         }
 
         function renderQuickMatchList() {
